@@ -14,6 +14,6 @@ class $modify(OptionsLayer) {
 
         auto dialog = DialogLayer::createDialogLayer(nullptr, array, 2);
         dialog->animateInRandomSide();
-        CCScene::get()->addChild(dialog);
+        CCScene::get()->addChild(dialog, 125);
     }
 };

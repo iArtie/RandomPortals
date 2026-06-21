@@ -9,7 +9,7 @@
 	"id": "bitz.random_portals",
 	"name": "Random Portals",
 	"early-load": true,
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "BitZ",
 	"description": "Makes all portals in the game completely random!",
 	"settings": {
@@ -60,8 +60,8 @@
 			"default": false
 		},
 		"enable-in-editor": {
-			"name": "Enable random in editor",
-			"description": "This option enable the randomization in the editor",
+			"name": "Enable random textures in editor",
+			"description": "This option enable the texture randomization in the editor",
 			"type": "bool",
 			"default": false
 		},
