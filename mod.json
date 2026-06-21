@@ -94,6 +94,10 @@
 		"source": "https://github.com/iArtie/RandomPortals",
 		"community": "https://discord.gg/gXg8w4xJDA"
 	},
+	"tags": [
+		"gameplay",
+		"content"
+	],
 	"dependencies": {
 		"geode.node-ids": ">=v1.20.0"
 	},
