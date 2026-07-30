@@ -9,33 +9,26 @@ class $modify(RPPauseLayer, PauseLayer) {
         PauseLayer::customSetup();
 
         auto menu = getChildByID("right-button-menu");
-        if (!menu) return;
+        if (!menu)
+            return;
 
         auto sprite = CircleButtonSprite::createWithSpriteFrameName(
-            "randomPortalIcon.png", 0.8f,
-            CircleBaseColor::Green, CircleBaseSize::MediumAlt
-        );
+            "randomPortalIcon.png", 0.8f, CircleBaseColor::Green, CircleBaseSize::MediumAlt);
         sprite->setScale(0.6f);
 
-        auto button = CCMenuItemSpriteExtra::create(
-            sprite, this, menu_selector(RPPauseLayer::onModSettings)
-        );
+        auto button = CCMenuItemExt::createSpriteExtra(sprite, [this](auto) {
+            openSettingsPopup(Mod::get());
+        });
         button->setID("mod-button"_spr);
         menu->addChild(button);
         menu->updateLayout();
     }
 
-    void onModSettings(CCObject*) {
-        geode::openSettingsPopup(Mod::get());
-    }
-
-    void onPracticeMode(CCObject * sender) {
+    void onPracticeMode(CCObject* sender) {
         if (Mod::get()->getSettingValue<bool>("easyMode")) {
             FLAlertLayer::create(
-                "Practice Mode\n  Disabled",
-                "\nYou can't use practice mode with <cy>easy mode</c> option enabled",
-                "Ok"
-            )->show();
+                "Info", "You can't use practice mode with <cy>easy mode</c> option enabled", "Ok")
+                ->show();
             return;
         }
 

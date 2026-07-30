@@ -1,5 +1,5 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
-#include "../utils/RPUtils.cpp"
+#include "../utils/RPUtils.hpp"
 
 using namespace geode::prelude;
 
@@ -12,41 +12,41 @@ class $modify(GJBaseGameLayer) {
     void update(float dt) {
         GJBaseGameLayer::update(dt);
 
-        bool inEditor = m_isEditor;
-        bool enableInEditor = Mod::get()->getSettingValue<bool>("enable-in-editor");
+        auto fields = m_fields.self();
 
-        if (inEditor && !enableInEditor) return;
+        if (m_isEditor && !getSettingFast<"enable-in-editor", bool>())
+            return;
 
-        auto playLayer = typeinfo_cast<PlayLayer*>(this);
+        auto playLayer = PlayLayer::get();
 
-        if (playLayer && Mod::get()->getSettingValue<bool>("easyMode") && playLayer->m_isPracticeMode) {
+        if (playLayer && getSettingFast<"easyMode", bool>() && playLayer->m_isPracticeMode) {
             playLayer->onQuit();
         }
 
-        m_fields->timeSinceLastTextureUpdate += dt;
+        fields->timeSinceLastTextureUpdate += dt;
 
-        if (m_fields->timeSinceLastTextureUpdate >= 0.05f) {
-            m_fields->timeSinceLastTextureUpdate = 0.f;
-            m_fields->currentTextureIndex = m_fields->currentTextureIndex % 15 + 1;
+        if (fields->timeSinceLastTextureUpdate >= 0.05f) {
+            fields->timeSinceLastTextureUpdate = 0.f;
+            fields->currentTextureIndex = fields->currentTextureIndex % 15 + 1;
         }
 
-        if (!m_objects) return;
+        if (!m_objects)
+            return;
 
         auto frames = CCSpriteFrameCache::sharedSpriteFrameCache();
-        auto texIndex = m_fields->currentTextureIndex;
-        auto disableBlending = Mod::get()->getSettingValue<bool>("disableBlending");
+        auto texIndex = fields->currentTextureIndex;
+        auto disableBlending = getSettingFast<"disableBlending", bool>();
 
-        for (unsigned i = 0; i < m_objects->count(); ++i) {
-            auto obj = typeinfo_cast<GameObject*>(m_objects->objectAtIndex(i));
-            if (!obj) continue;
-
-            if (obj->getZOrder() == -89 || obj->getZOrder() == -90) { // Yeah, the only way to get the back object for the portal is only with Z order, sadly, yes
-                RPUtils::updateBackSprite(obj, frames, texIndex);
+        for (auto* objects : m_objects->asExt<GameObject>()) {
+            if (objects->getZOrder() == -89 ||
+                objects->getZOrder() == -90) { // Yeah, the only way to get the back object for the
+                                               // portal is only with Z order, sadly, yes
+                RPUtils::updateBackSprite(objects, frames, texIndex);
             }
 
-            if (RPUtils::isPortalObject(obj->m_objectID)) {
-                RPUtils::updateFrontSprite(obj, frames, texIndex);
-                RPUtils::updatePortalParticle(obj, disableBlending);
+            if (RPUtils::isPortalObject(objects->m_objectID)) {
+                RPUtils::updateFrontSprite(objects, frames, texIndex);
+                RPUtils::updatePortalParticle(objects, disableBlending);
             }
         }
     }

@@ -12,7 +12,7 @@ project(RandomPortals VERSION 1.0.0)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} "src/hooks/LoadingLayer.cpp" "src/hooks/PlayLayer.cpp" "src/utils/RPUtils.cpp" "src/hooks/GameManager.cpp" "src/hooks/GameStatsManager.cpp")
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
