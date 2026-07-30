@@ -9,7 +9,7 @@
 	"id": "bitz.random_portals",
 	"name": "Random Portals",
 	"early-load": true,
-	"version": "v1.0.2",
+	"version": "v1.0.3",
 	"developer": "BitZ",
 	"description": "Makes all portals in the game completely random!",
 	"settings": {

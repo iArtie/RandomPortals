@@ -10,13 +10,15 @@ class $modify(LoadingLayer) {
         std::filesystem::path zipFilePath = Mod::get()->getResourcesDir() / "RandomPortals.zip";
         std::filesystem::path unzipDir = Mod::get()->getResourcesDir() / "RandomPortals";
 
-        auto unzipRes = geode::utils::file::Unzip::intoDir(zipFilePath, unzipDir);
-        if (unzipRes.isErr()) {
-            log::error("Failed to extract textures: {}", unzipRes.unwrapErr());
-            return true;
+        if (!std::filesystem::exists(unzipDir)) {
+            auto unzipRes = utils::file::Unzip::intoDir(zipFilePath, unzipDir);
+            if (unzipRes.isErr()) {
+                log::error("Failed to extract random portal textures: {}", unzipRes.unwrapErr());
+                return true;
+            }
         }
 
-        auto unzipDirStr = geode::utils::string::pathToString(unzipDir);
+        auto unzipDirStr = utils::string::pathToString(unzipDir);
 
         CCFileUtils::get()->addTexturePack(
             CCTexturePack{.m_id = this->getID(), .m_paths = {unzipDirStr}});
