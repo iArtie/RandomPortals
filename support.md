@@ -5,7 +5,7 @@ Hey!
 If you'd like to support what I do, you can do so through PayPal:  
 <cy>[Link to my PayPal](https://www.paypal.me/BitZ0wo)</c>
 
-There's absolutely **no pressure** to donate — just the fact that you're here means a lot to me. <3
+There's absolutely **no pressure** to donate - just the fact that you're here means a lot to me. <3
 
 
 # <cr>No Need to Donate</c>
