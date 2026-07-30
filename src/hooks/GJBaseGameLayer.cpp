@@ -37,16 +37,19 @@ class $modify(GJBaseGameLayer) {
         auto texIndex = fields->currentTextureIndex;
         auto disableBlending = getSettingFast<"disableBlending", bool>();
 
-        for (auto* objects : m_objects->asExt<GameObject>()) {
-            if (objects->getZOrder() == -89 ||
-                objects->getZOrder() == -90) { // Yeah, the only way to get the back object for the
-                                               // portal is only with Z order, sadly, yes
-                RPUtils::updateBackSprite(objects, frames, texIndex);
+        for (auto* obj : m_objects->asExt<GameObject>()) {
+            if (!obj)
+                continue;
+
+            if (obj->getZOrder() == -89 ||
+                obj->getZOrder() == -90) { // Yeah, the only way to get the back object for the
+                                           // portal is only with Z order, sadly, yes
+                RPUtils::updateBackSprite(obj, frames, texIndex);
             }
 
-            if (RPUtils::isPortalObject(objects->m_objectID)) {
-                RPUtils::updateFrontSprite(objects, frames, texIndex);
-                RPUtils::updatePortalParticle(objects, disableBlending);
+            if (RPUtils::isPortalObject(obj->m_objectID)) {
+                RPUtils::updateFrontSprite(obj, frames, texIndex);
+                RPUtils::updatePortalParticle(obj, disableBlending);
             }
         }
     }

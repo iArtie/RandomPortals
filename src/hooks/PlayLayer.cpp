@@ -84,10 +84,10 @@ class $modify(PlayLayer) {
                         continue;
 
                     chosenIndex =
-                        geode::utils::random::generate<int>(0, static_cast<int>(candidates.size()));
+                        geode::utils::random::generate<int>(0, static_cast<int>(candidates.size() - 1));
                 } else {
                     chosenIndex =
-                        geode::utils::random::generate<int>(0, static_cast<int>(candidates.size()));
+                        geode::utils::random::generate<int>(0, static_cast<int>(candidates.size() - 1));
                 }
 
                 auto newPortal = candidates[chosenIndex];

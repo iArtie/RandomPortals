@@ -84,32 +84,29 @@ void RPUtils::updateFrontSprite(GameObject* object, CCSpriteFrameCache* frames, 
     if (object->getChildrenCount() >= 1) {
         auto children = object->getChildrenExt();
 
-        for (auto* child : children) {
-            if (!child)
-                return;
-        }
-
         auto* child0 = typeinfo_cast<CCSprite*>(children[0]);
-        if (!child0)
-            return;
+        if (child0) {
+            if (children.size() >= 2) {
+                Ref<CCSprite> child1 = typeinfo_cast<CCSprite*>(children[1]);
+                if (child1 && child1->getParent() == object) {
+                    auto worldPos = object->convertToWorldSpace(child1->getPosition());
+                    auto worldRotation = object->getRotation() + child1->getRotation();
 
-        if (children.size() >= 2) {
-            Ref<CCSprite> child1 = typeinfo_cast<CCSprite*>(children[1]);
-            if (child1 && child1->getParent() == object) {
-                auto worldPos = object->convertToWorldSpace(child1->getPosition());
-                auto worldRotation = object->getRotation() + child1->getRotation();
+                    object->removeChild(child1, false);
+                    child0->addChild(child1);
 
-                object->removeChild(child1, false);
-                child0->addChild(child1);
-
-                child1->setPosition(child0->convertToNodeSpace(worldPos));
-                child1->setRotation(worldRotation - child0->getRotation());
-                child1->setAnchorPoint({0.65f, 0.5f});
-                child1->setDisplayFrame(frames->spriteFrameByName("randomPortalIcon.png"));
+                    child1->setPosition(child0->convertToNodeSpace(worldPos));
+                    child1->setRotation(worldRotation - child0->getRotation());
+                    child1->setAnchorPoint({0.65f, 0.5f});
+                    child1->setDisplayFrame(frames->spriteFrameByName("randomPortalIcon.png"));
+                }
             }
-        }
 
-        child0->setAnchorPoint({1.25f, 0.5f});
-        child0->setDisplayFrame(guideFrame);
+            child0->setAnchorPoint({1.25f, 0.5f});
+            child0->setDisplayFrame(guideFrame);
+        }
     }
+
+    object->setDisplayFrame(frontFrame);
+    object->setAnchorPoint({0.32f, 0.5f});
 }
